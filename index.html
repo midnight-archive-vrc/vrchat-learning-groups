@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning in VRChat</title>
+<meta name="description" content="A directory of educational groups in VRChat: book clubs, discussion nights, talks, classes, language exchanges, sign language, trivia and world tours.">
+<style>
+:root{
+  --bg:#f6f4ef; --panel:#ffffff; --ink:#1d1b22; --muted:#5f5a6b; --line:#e2ddd3;
+  --accent:#3b4cca; --accent-soft:#e7e9fb; --adult:#9b2c3c; --adult-bg:#f8e1e5;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121019; --panel:#1b1824; --ink:#ece9f4; --muted:#a59fb5; --line:#2e2a3a;
+    --accent:#9aa6ff; --accent-soft:#262a4a; --adult:#f19aa8; --adult-bg:#3a1b22;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121019; --panel:#1b1824; --ink:#ece9f4; --muted:#a59fb5; --line:#2e2a3a;
+  --accent:#9aa6ff; --accent-soft:#262a4a; --adult:#f19aa8; --adult-bg:#3a1b22;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:28px;line-height:1.2;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;max-width:780px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--line);margin-bottom:18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bar input{flex:1 1 240px;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font:inherit}
+.count{color:var(--muted);font-size:13px;margin-left:auto}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:0 0 22px}
+nav.toc a{color:var(--accent);text-decoration:none}
+nav.toc a:hover{text-decoration:underline}
+section{margin:0 0 34px}
+section h2{font-size:19px;margin:0 0 4px}
+section .blurb{color:var(--muted);margin:0 0 12px;font-size:14px;max-width:820px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 14px;display:flex;flex-direction:column;gap:6px}
+.card h3{font-size:15.5px;margin:0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.badge{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.adult{color:var(--adult);background:var(--adult-bg)}
+.meta{color:var(--muted);font-size:13px}
+.what{margin:0;font-size:14px}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.links a{font-size:12.5px;text-decoration:none;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:6px;overflow-wrap:anywhere}
+.links a:hover{text-decoration:underline}
+.rows{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.9fr) minmax(0,1.6fr);gap:10px;padding:9px 14px;border-top:1px solid var(--line);font-size:14px;align-items:baseline}
+.row:first-child{border-top:0}
+.row .nm{font-weight:600}
+.row .meta a{color:var(--accent)}
+.topic{padding:8px 14px;background:var(--accent-soft);font-size:12.5px;font-weight:700;letter-spacing:.02em;border-top:1px solid var(--line)}
+.topic:first-child{border-top:0}
+.hide{display:none!important}
+footer{color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:14px}
+footer a{color:var(--accent)}
+@media (max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr;gap:2px}
+  h1{font-size:23px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Learning in VRChat</h1>
+  <p class="sub">A directory of educational groups in VRChat: book clubs, discussion nights, talks and classes, language exchanges, sign language, trivia and world tours. Each <b>VRChat group</b> link opens the group's public page, no login needed. Member counts and schedules were taken from public group pages in November 2026 and may have changed since.</p>
+
+  <div class="bar">
+    <input id="q" type="search" placeholder="Search names, topics, times…" aria-label="Search groups">
+    <span class="count" id="count"></span>
+  </div>
+
+  <nav class="toc" id="toc"></nav>
+  <main id="main"></main>
+
+  <footer>
+    <p><b>Where to find more events:</b>
+      <a href="https://vrchat.com/home/calendar" target="_blank" rel="noopener">VRChat events calendar</a> (try the "education" and "exploration" categories) ·
+      <a href="https://search.vrcwwt.com/" target="_blank" rel="noopener">VRC Search</a> ·
+      <a href="https://vrcast.vrc7.de/en/events" target="_blank" rel="noopener">VRCast events</a> ·
+      <a href="https://vrmeet.zone/" target="_blank" rel="noopener">VRMeet</a> ·
+      <a href="https://everythingimmersive.com/" target="_blank" rel="noopener">Everything Immersive</a> ·
+      <a href="https://www.reddit.com/r/VRchat/" target="_blank" rel="noopener">r/VRchat</a></p>
+    <p>Listings come from public group pages and websites. Being listed doesn't mean a group is affiliated with or endorses this page. Compiled by Doghouse Devs, November 2026.</p>
+  </footer>
+</div>
+
+<script>
+const vg = c => ["VRChat group", "https://vrc.group/" + c];
+const dc = c => ["Discord", "https://discord.gg/" + c];
+const x  = h => ["X @" + h, "https://x.com/" + h];
+const bs = h => ["Bluesky", "https://bsky.app/profile/" + h];
+const web = (u, label) => [label || u.replace(/^https?:\/\//, "").replace(/\/$/, ""), u];
+const named = (pair, label) => [label, pair[1]];
+
+// n name, c VRChat group code, a 18+, m members, t schedule, w description, l extra links
+const SECTIONS = [
+{ id:"read", title:"Reading, writing and discussion",
+  blurb:"Book clubs, read-aloud and storytelling nights, poetry, writing and discussion circles.",
+  items:[
+  {n:"Rainbow Library", c:"RAINBO.3029", m:"2,883", t:"Poetry Slam Tue 6 PM ET; Art Class Thu", w:"LGBTQ+ community with a library theme: weekly poetry slam (open mic), art class and voice-training lectures.", l:[web("https://www.patreon.com/c/RainbowLibrary","Patreon"), ["YouTube","https://www.youtube.com/@rainbowlibrarytv"]]},
+  {n:"Silent Book Club VRChat", c:"SBC.1254", a:1, m:"54", t:"Saturdays 6 PM ET", w:"VRChat chapter of Silent Book Club: an hour of silent reading, then optional chat.", l:[web("https://silentbookclub.carrd.co","Website"), bs("silentbookclubvrc.bsky.social")]},
+  {n:"Horse Book Club", c:"HRSBK.8901", m:"317", t:"Saturdays 8 PM ET", w:"Weekly book discussion; reading optional.", l:[]},
+  {n:"Talk Group: Reader's Corner", c:"TALKGR.2057", a:1, m:"1,974", t:"See group calendar", w:"Members read their own writing on a monthly theme. SFW.", l:[]},
+  {n:"BOOK READ SUNDAY", c:"BRS.1338", m:"155", t:"Sundays 9 PM ET", w:"Sunday read-aloud sessions, plus monthly short-story and poetry readings.", l:[]},
+  {n:"Tybalt's Tent of Tales", c:"OFCAKE.3214", m:"364", t:"Fridays 7 PM ET", w:"Weekly storytime hour.", l:[]},
+  {n:"Markus' Story Corner (Sushi Live)", c:"SUSHI.3249", m:"317", t:"Saturdays noon ET", w:"Weekly group book reading for the Sushi Live community.", l:[web("https://sushifur.live","Website")]},
+  {n:"The Writers Parlor", c:"WRITER.4476", a:1, m:"1,013", t:"Mondays 6–9 PM PT", w:"Writers' group: craft talk, silent-writing sessions and a \"Literary Hour\".", l:[web("https://www.patreon.com/TheWritersParlor","Patreon")]},
+  {n:"The Strays", c:"STRAY.1840", m:"1,533", t:"See group calendar", w:"Creepypasta nights of narrated dark tales.", l:[web("https://strays.link","Website")]},
+  {n:"Kinger's Royal Readers", c:"ROYALS.9673", m:"498", t:"See group page", w:"Read-aloud book club.", l:[]},
+  {n:"book club", c:"BOOKS.9691", m:"438", t:"See group page", w:"Weekly read-aloud sessions, discussions and member votes on books.", l:[]},
+  {n:"Machii's Book Club", c:"MACHII.2743", a:1, m:"67", t:"Tue and Thu 6 PM ET", w:"Book club reading LGBTQ+ history. SFW.", l:[]},
+  {n:"Site Crawfish", c:"CRAFSH.0312", m:"1,544", t:"See group page", w:"Creative-writing community inspired by The Magnus Archives, SCP and Welcome to Night Vale.", l:[]},
+  {n:"Tongue and Groove Storytelling", c:"TONGUE.3966", m:"122", t:"Announced dates", w:"Personal-storytelling events by Tri-Coastal Virtual Theatre Workshop; some themes are adult.", l:[]},
+  {n:"Graylist", c:"GRAY.9546", m:"1,078", t:"Saturdays 6 PM ET", w:"Weekly hosted discussion night.", l:[]},
+  {n:"Life Talks", c:"LIFTLK.0122", m:"191", t:"Wednesdays 7:15 PM ET", w:"Weekly group discussion about life, philosophy, metaphors and hypotheticals.", l:[dc("WBP3FTxkXx")]},
+  {n:"Philosophy (LOGOS)", c:"LOGOS.1114", m:"900", t:"Friday evenings", w:"Long-form philosophy \"Symposium\" sessions.", l:[]},
+  {n:"LessWrong and Adjacent Meetup", c:"LESSWR.7138", m:"100", t:"Sat 22:00 UTC", w:"Weekly rationalist reading and discussion on a voted topic.", l:[dc("2jF45FTrts"), web("https://duxrat.com/meetup","Website")]},
+  {n:"OpenMind", c:"MIND.9056", m:"907", t:"See group calendar", w:"Guided sharing circles and small debates.", l:[]},
+  {n:"Da Digital Debaters", c:"DEBATE.9619", m:"17", t:"Weekly", w:"Weekly debates.", l:[]},
+  {n:"Open Mic Enjoyers", c:"OPENMI.2013", m:"1,893", t:"Directory", w:"Hub listing open-mic groups across VRChat.", l:[]},
+  {n:"The Midnight Opera", c:"MOPERA.1862", a:1, m:"3,120", t:"Every other Saturday", w:"SFW theatre community with open mics in Quest-compatible venues.", l:[web("https://themidnightopera.com/","Website")]}
+  ]},
+
+{ id:"talks", title:"Talks, lectures and classes",
+  blurb:"Lecture series, workshops, voice training, art history and learning communities.",
+  items:[
+  {n:"VRChat International Science Community (VRISC)", c:"VRISC.1569", m:"100", t:"Every other Sat 14:30 UTC", w:"English lightning talks on natural science at undergraduate level. PC + Quest.", l:[dc("JnqFEubdn2"), x("VRISC1569"), web("https://vrc-ta-hub.com/community/91/","Schedule")]},
+  {n:"The Eye of Veritas", c:"THEEYE.4818", m:"1,075", t:"Educational Expedition, Wed 8 PM ET", w:"Learning community covering science, philosophy, history and art, with weekly talks and tours of educational worlds.", l:[dc("eyeofveritas"), web("https://eyeofveritas.org","Website")]},
+  {n:"Ryo Arts", c:"RYOART.4050", m:"95", t:"See group calendar", w:"Art history gallery-tour series.", l:[]},
+  {n:"Trans Academy", c:"TRANS.7885", m:"70,522", t:"Voice class Sun 19:00 UTC", w:"Nonprofit education community: voice classes, office hours and lectures on its own campus world.", l:[web("https://transacademy.org","Website"), x("TransAcademyVR")]},
+  {n:"Prismatic Archive", c:"PRISM.7059", m:"6,153", t:"Voice workshop Fri 22:00 UTC", w:"Trans and queer story-sharing and mutual aid, with a weekly voice-training workshop. 13+.", l:[]},
+  {n:"The Faceless", c:"NOFACE.0408", a:1, m:"9,283", t:"See group calendar", w:"Nonprofit running an ASL class, esoterics talks, an intro to goth culture, a speakers program and a community-history project.", l:[dc("thefaceless"), web("https://templevr.org","Website")]},
+  {n:"VRChat and Relax", c:"VRCR.7750", a:1, m:"2,852", t:"See group calendar", w:"Adult hangout group running a beginner Japanese course (\"Japanese Classes with Jackdaw\"). SFW.", l:[]},
+  {n:"STEM VR", c:"STEMVR.2194", m:"1,163", t:"See group page", w:"Science, technology, engineering and maths community: tea times, STEM movie nights and talks by professionals.", l:[x("STEM_VR")]},
+  {n:"Atomiklan Engineering", c:"ATOMIK.2266", m:"122", t:"Thursdays 10 PM ET", w:"Community of scientists and engineers.", l:[]},
+  {n:"K-Corp – The Knowledge Cooperation", c:"KCORP.1810", m:"88", t:"See group page", w:"Workshops, talks and tours in German and English.", l:[]},
+  {n:"Forjadores Hispanos VRChat", c:"", m:"1,871 (Discord)", t:"Sundays", w:"Spanish-language community teaching world and avatar creation.", l:[["Discord","https://discord.com/servers/forjadores-hispanos-vrchat-845116445540876289"], x("FVrchat")]},
+  {n:"Disability Pride and Advocacy", c:"DISABI.7785", m:"748", t:"See group page", w:"Accessibility guidance for world builders and event hosts.", l:[]},
+  {n:"Medieval Enjoyers", c:"MDEVAL.6119", m:"3,904", t:"See group page", w:"Chat and teaching about medieval history and technology.", l:[]},
+  {n:"Improv E", c:"IMPROV.8408", m:"182", t:"See group calendar", w:"Improv classes.", l:[]},
+  {n:"Unknown Theater", c:"UNK.4292", m:"1,239", t:"See group calendar", w:"Comedy classes.", l:[]},
+  {n:"Cymraeg", c:"WALES.0752", m:"–", t:"See group calendar", w:"Welsh-language evenings of songs, stories and poetry.", l:[]}
+  ]},
+
+{ id:"lang", title:"Languages and sign language",
+  blurb:"Language exchanges, English practice, constructed languages and sign-language classes.",
+  items:[
+  {n:"VRC EN-JP Language Exchange", c:"ENJPLE.4029", m:"17,592", t:"Sat 13:00 and Sun 21:00 JST", w:"Japanese and English speakers talk in small groups on a set topic, with bilingual staff.", l:[dc("j7PZHnNKqm"), x("vrcenjp")]},
+  {n:"JapaNichijou", c:"JPHITS.0893", m:"10,598", t:"Weekends", w:"Learn Japanese through games, lessons and culture sessions.", l:[dc("SNdFKXaT6D"), web("https://japanichijou.com","Website"), x("JapaNichijou")]},
+  {n:"Maple Tree", c:"MAPLE.3722", m:"715", t:"See group page", w:"Game nights and study sessions for English speakers learning Japanese.", l:[]},
+  {n:"World Language Lovers", c:"WLL.1184", m:"2,144", t:"See group calendar", w:"Multilingual language-exchange nights.", l:[]},
+  {n:"English Hub", c:"WLE.8491", m:"949", t:"See group page", w:"Helping people learn English and connect across the globe.", l:[]},
+  {n:"Study Group", c:"STUDY.2674", m:"437", t:"See group page", w:"Study-together sessions that move between worlds on breaks. Korean and English.", l:[]},
+  {n:"Poligloteiros", c:"M4RC3L.1773", m:"104", t:"See group calendar", w:"Free English classes (Portuguese speakers).", l:[]},
+  {n:"WeLearnFast", c:"WLF.6375", m:"491", t:"See group calendar", w:"English conversation practice for Brazilians.", l:[]},
+  {n:"Russian-English Club", c:"ENGRUS.7042", m:"1,672", t:"See group calendar", w:"English lessons for Russian speakers.", l:[]},
+  {n:"Bolat English", c:"BOLAT.4476", m:"87", t:"See group calendar", w:"English lessons in Russian.", l:[]},
+  {n:"Study Russian", c:"RUS.4169", m:"618", t:"See group calendar", w:"Russian study meetups.", l:[]},
+  {n:"Projekto Babel", c:"BABEL.3764", m:"1,008", t:"Around 13:00 UTC", w:"Multilingual community: Esperanto lessons, toki pona meetups and more.", l:[dc("8mmP2Szx6e"), x("Projekto_Babel")]},
+  {n:"learn toki pona", c:"SONA.6570", m:"259", t:"Fridays and Sundays", w:"Toki pona speaking practice and small-group lessons.", l:[]},
+  {n:"Toki Pona VR", c:"TOKI.9663", m:"1,210", t:"Saturdays 12:00 PT", w:"Weekly toki pona meetups.", l:[]},
+  {n:"Esperanto", c:"EPO.8421", m:"409", t:"See group calendar", w:"Esperanto lessons.", l:[]},
+  {n:"Helping Hands", c:"HANDS.0010", m:"6,185", t:"Timetable on Discord", w:"Sign-language community: ASL and BSL classes (also JSL, KSL and LSF), wellness workshops and social nights.", l:[dc("helpinghands"), web("https://helpinghands.gg","Website"), x("HelpingHandsVRC")]},
+  {n:"Global Sign Language Community", c:"GSLC.0465", m:"644", t:"LSF class Mon 21:15 UTC; ASL slots", w:"Deaf-centred ASL, LSF and DGS lessons and signing meetups.", l:[dc("fS93Tj47BD"), web("https://globalsignlanguage.carrd.co/","Website"), x("GSLC_Official")]},
+  {n:"GAMERS", c:"GAMERS.4213", m:"1,180", t:"See group calendar", w:"ASL hangouts.", l:[]}
+  ]},
+
+{ id:"trivia", title:"Trivia and game shows",
+  blurb:"Quiz nights and classic game-show formats.",
+  items:[
+  {n:"Game Show Mafia", c:"GSM.8066", m:"221", t:"Jeopardy Tue 8 PM ET; Mon and Fri shows", w:"Live game-show and trivia nights: Jeopardy, \"Are You Smarter than a 5th Grader\", movie trivia.", l:[]},
+  {n:"The Game Show Communities of VRChat", c:"GSCVRC.1583", m:"719", t:"Tue and Sat 8 PM ET", w:"Umbrella group for game-show creators; shows run through its events group.", l:[named(vg("VRGAME.9490"),"Events group")]},
+  {n:"Electric Paradise Gameshows", c:"EPGS.0628", m:"660", t:"See group calendar", w:"Jeopardy, Family Feud, Wheel and Match Game nights.", l:[]},
+  {n:"ChefCurryGameshowGroup", c:"CHEFGS.3883", m:"722", t:"See group calendar", w:"Streamed Jeopardy-style collaborations.", l:[]},
+  {n:"Game Show Decades Machine Studios", c:"GSDM.4104", m:"620", t:"See group calendar", w:"Classic TV formats: Millionaire, Wheel, Feud.", l:[]},
+  {n:"Country Quiz VR", c:"CQVR.8895", m:"5", t:"Weekly", w:"Country Quiz Night.", l:[]}
+  ]},
+
+{ id:"tours", title:"World tours, festivals and educators",
+  blurb:"Groups that visit and showcase worlds, plus educator networks and conferences that meet in VRChat.",
+  items:[
+  {n:"Educators in VR", c:"EDVR.5885", m:"506", t:"Creative Writing Workshop Tue 3 PM PT", w:"Volunteer network of educators exploring teaching in VR; runs talks, workshops and the VRWriMo writing month.", l:[["Discord","https://discord.me/writingvr"], web("https://educatorsinvr.wordpress.com/","Website"), bs("educatorsinvr.bsky.social")]},
+  {n:"Agog (Agog House)", c:"", m:"–", t:"Monthly (Pacific time)", w:"XR-for-good nonprofit running public programs and livestreamed world hops.", l:[web("https://agog.org/connect","Website"), web("https://agog.org/vrchat-guide/","VRChat guide"), bs("weareagog.bsky.social")]},
+  {n:"Cadet's Metaverse", c:"CADMET.4595", m:"–", t:"See group calendar", w:"World tours.", l:[]},
+  {n:"Virtual Market – Global", c:"", m:"7,079", t:"Weekly", w:"Weekly world hopping.", l:[["VRChat group","https://vrchat.com/home/group/grp_b39cfe35-8a86-4454-ad2b-3649b3702793"]]},
+  {n:"PrideVR \"Adventure Queers\"", c:"", m:"–", t:"Weekly", w:"Weekly visits to new worlds.", l:[["VRChat group","https://vrchat.com/home/group/grp_548b8449-2fc6-48b8-bbdf-b380401d9b66"]]},
+  {n:"PixelSync", c:"", a:1, m:"1,218 (Discord)", t:"European evenings", w:"Event community with gaming, hangouts and world hops. SFW.", l:[dc("pixelsync")]},
+  {n:"Community Meetup", c:"", m:"–", t:"Sundays 1 PM PT", w:"Weekly visits to worlds in development, for testing and feedback.", l:[web("https://www.communitymeetup.net/","Website"), ["Discord","https://discord.com/invite/KEdTDFq24T"]]},
+  {n:"Raindance Immersive", c:"", m:"–", t:"Festival, June", w:"Festival that selects VRChat worlds and runs creator tours and panels.", l:[web("https://www.raindanceimmersive.com/","Website")]},
+  {n:"Venice Immersive", c:"", m:"–", t:"Festival, September", w:"Festival section showing VRChat worlds in guided tours.", l:[web("https://www.labiennale.org/en/news/venice-immersive-selection-and-competition-announced-0","Website")]},
+  {n:"PJKT (Projekt Community)", c:"PJKT.3741", m:"–", t:"Fang, Fest, HorrorCon", w:"Community conventions in VRChat, co-organized with HorrorConVR.", l:[web("https://projektcommunity.com","Website"), named(vg("HORROR.4016"),"HorrorConVR")]},
+  {n:"VMoVA (Virtual Museum of Virtual Art)", c:"", m:"–", t:"Exhibitions", w:"Museum whose exhibitions are VRChat worlds.", l:[web("https://vmova.org/","Website"), x("vmova_org")]},
+  {n:"IMMERSIVE X", c:"", m:"–", t:"Yearly, November", w:"Conference held in virtual worlds, VRChat among them.", l:[web("https://immersive-x.de/","Website")]},
+  {n:"Meaningful XR", c:"", m:"–", t:"Yearly, May", w:"Academic conference on XR for social impact, with a VRChat world.", l:[web("https://www.meaningfulxr.org/","Website")]},
+  {n:"VR Club at UIUC", c:"", m:"–", t:"Fridays 4–7 PM CT", w:"University of Illinois student club, based in the Grainger Engineering Library, with VRChat nights.", l:[web("https://uiucvrclub.web.illinois.edu/","Website")]}
+  ]}
+];
+
+// Interest groups: [name, code, members]
+const INTEREST = [
+ ["Philosophy and psychology", [["Philosophy","PHILOS.8477","1,542"],["Philosophy in VR","PHILOS.9383","452"],["PsychologVR (Russian)","PSYHO.6858","291"],["Psychology","PSYCHO.5998","270"],["Esoteric Philosophy","NOUS.9787","126"],["Jungian Psychology","JUNG.9557","95"],["Philosophy of Mind","MIND.8458","66"],["Philosophy Psychology","PSYCHE.2749","57"]]],
+ ["History and mythology", [["Greek Mythology","GREEKM.7825","2,060"],["HISTORY LOVERS","H1ST0R.7108","1,109"],["History Buffs","HISBUF.6859","617"],["WW2 history","WW2.5838","557"],["HISTORY","HISTRY.6024","522"]]],
+ ["Reading and writing", [["Writers","WRITER.2459","632"],["Reading Club","READER.2671","477"],["Rael's Book Club","RAEL.2534","347"],["Writer and reader","WRITER.3430","333"],["Book lovers","BOOKLO.2563","322"],["Writers of Vrchat","WRITER.5077","304"],["poetry","POETRY.0948","241"],["Poets and Writers","POETRY.8044","209"],["Library of Babel","BABEL.2145","125"],["Literature Club","BOOKS.5169","121"]]],
+ ["Astronomy and physics", [["Space","SPACE.1300","4,454"],["Astronomer","ASTRO.0790","650"],["Astronomy","COSMOS.2519","386"],["Physics","SCI.0953","316"],["Astrophysicist","ASTRO.8793","75"]]],
+ ["Maths and computing", [["Programmers of VRChat","VRCODE.6720","2.3K"],["Mathematics","MATH.3755","713"],["Computer science","COMPUT.5593","704"],["Hams of VRC","CQVR.5617","37"]]],
+ ["Life sciences and medicine", [["Paleontology nerds","DINOS.4504","653"],["Medical Field","MEDIC.2986","498"],["Medical","MED.1885","192"],["Marine biology lovers","MARINE.4458","135"],["Science nerds","NERDS.5687","84"]]],
+ ["Geography, quizzes and debate", [["Politics","POLITI.1480","237"],["Debate Hub","DEBATE.1124","158"],["Sona's Quiz World","QUIZWO.8930","148"],["World Geography Club","GEO.2660","137"],["Debate League","DEBATE.0142","94"]]],
+ ["Museums", [["Virtual Furry Museum","VFM.5164","664"],["The Museum of Immersivism","IMMERS.9583","52"]]],
+ ["Language learners", [["Language Exchange","LANGUA.3669","2,265"],["VR Nihongo Learn Japanese","VRNIHO.2278","2,116"],["Language Learner","LANG.0779","1,204"],["我在学中文 (learning Chinese)","XUECN.7825","1,126"],["EN-KO Exchange","ENKOLE.1890","990"],["Learning German","LEARNI.4606","801"],["Learning English","COMMU.2099","731"],["EN-CN Language Exchange","ENCN.6564","605"],["English Corner","ENGCN.1105","601"]]],
+ ["Sign language and Deaf community", [["Sign Language","SIGNLA.9488","982"],["ASL","ASL.7312","876"],["Medical Mute","MEDMTE.1160","720"],["Learning VRASL","ASL.2127","510"],["ASL Club","ASL.0164","498"],["Learning ASL","ASL.2830","381"],["Deaf and Hard of Hearing","309DHH.7111","164"]]],
+ ["Faith study groups", [["Meta Church","CHRIST.0497","8,131"],["Epic Fellowship VR","CHRIST.0762","1,778"],["VR Victory Church","CHURCH.6638","1,573"],["Metanoia","MTNOIA.8806","639"],["Jewish (Torah study, Hebrew lessons)","JEWISH.9708","587"],["Oasis Church VR","OASIS.3347","372"],["The Open-Door Ministry","SHEEP.6536","117"]]]
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]));
+const linkHTML = ([label, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a>`;
+
+function card(it){
+  const links = (it.c ? [vg(it.c)] : []).concat(it.l || []);
+  const text = [it.n, it.c, it.w, it.t].join(" ").toLowerCase();
+  const members = it.m && it.m !== "–" ? esc(it.m) + " members · " : "";
+  return `<article class="card" data-text="${esc(text)}">
+    <h3>${esc(it.n)}${it.a ? `<span class="badge adult">18+</span>` : ""}</h3>
+    <div class="meta">${members}${esc(it.t)}</div>
+    <p class="what">${esc(it.w)}</p>
+    ${links.length ? `<div class="links">${links.map(linkHTML).join("")}</div>` : ""}
+  </article>`;
+}
+
+function rows(groups){
+  return groups.map(([n, c, m]) => `<div class="row" data-text="${esc((n + " " + c).toLowerCase())}">
+    <span class="nm">${esc(n)}</span><span class="meta">${esc(m)} members</span>
+    <span class="meta"><a href="https://vrc.group/${esc(c)}" target="_blank" rel="noopener">vrc.group/${esc(c)}</a></span></div>`).join("");
+}
+
+const main = document.getElementById("main"), toc = document.getElementById("toc");
+let html = "", tocHTML = "";
+for (const s of SECTIONS){
+  html += `<section id="${s.id}"><h2>${esc(s.title)}</h2><p class="blurb">${esc(s.blurb)}</p><div class="grid">${s.items.map(card).join("")}</div></section>`;
+  tocHTML += `<a href="#${s.id}">${esc(s.title)}</a>`;
+}
+html += `<section id="interest"><h2>Interest groups by topic</h2>
+  <p class="blurb">Groups that gather people around a subject. Some hold events and some are mainly a badge or a place to meet others who share the interest.</p>
+  <div class="rows">${INTEREST.map(([topic, gs]) => `<div class="topic" data-topic>${esc(topic)}</div>${rows(gs)}`).join("")}</div></section>`;
+tocHTML += `<a href="#interest">Interest groups by topic</a>`;
+main.innerHTML = html; toc.innerHTML = tocHTML;
+
+const q = document.getElementById("q"), countEl = document.getElementById("count");
+function apply(){
+  const term = q.value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll("[data-text]").forEach(el => {
+    const ok = !term || el.dataset.text.includes(term);
+    el.classList.toggle("hide", !ok); if (ok) shown++;
+  });
+  document.querySelectorAll("section").forEach(sec => {
+    sec.classList.toggle("hide", !sec.querySelector("[data-text]:not(.hide)"));
+  });
+  document.querySelectorAll("[data-topic]").forEach(t => {
+    let el = t.nextElementSibling, any = false;
+    while (el && !el.hasAttribute("data-topic")) { if (!el.classList.contains("hide")) any = true; el = el.nextElementSibling; }
+    t.classList.toggle("hide", !any);
+  });
+  countEl.textContent = shown + " groups";
+}
+q.addEventListener("input", apply);
+apply();
+</script>
+</body>
+</html>
